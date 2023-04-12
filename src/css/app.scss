@@ -1,0 +1,20 @@
+.bc {
+  &-header {
+    background: repeating-linear-gradient(135deg,#2578dc 1px,#277de5 7px);
+    background-size: cover;
+  }
+  &-page {
+    &-settings {
+      width: 1022px;
+      @media (max-width: $breakpoint-sm) {
+        width: 100%;
+      }
+    }
+  }
+  &-slider {
+    flex: 1 1 auto;
+  }
+  &-image {
+    width: 100%;
+  }
+}
