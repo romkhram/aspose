@@ -2,7 +2,7 @@
 // Components
 import BcSlider from 'components/BcSlider.vue'
 
-import { ref, computed, onMounted } from 'vue'
+import { ref, computed, watch, onMounted } from 'vue'
 
 // Request
 const api = 'https://products.aspose.app/barcode/embed/image.'
@@ -60,6 +60,19 @@ onMounted(() => {
   getBarcodeParams()
 })
 
+// Reactive / by button
+const reactiveGenerate = ref(true)
+const buttonUrl = ref('')
+const urlToButtonUrl = () => {
+  buttonUrl.value = url.value
+}
+watch(
+  () => reactiveGenerate.value,
+  (val) => {
+    urlToButtonUrl()
+  }
+)
+
 </script>
 <template>
   <q-page class="flex justify-center">
@@ -71,6 +84,7 @@ onMounted(() => {
             v-model="fileParams.Content"
           />
         </div>
+
         <div class="col-xs-12 col-md-6 q-px-lg">
           <q-select
             label="Extension"
@@ -85,14 +99,30 @@ onMounted(() => {
             :options="barcodeTypes"
           />
         </div>
+
         <div class="row col-12 items-center q-px-lg q-py-md">
           <bc-slider
             label="Size"
             v-model="fileParams.size"
           />
-          <div class="q-ml-lg">
+        </div>
+        <div class="row justify-between col-12 items-center q-px-md q-py-md">
+          <div>
+            <q-toggle
+              v-model="reactiveGenerate"
+              :label="reactiveGenerate ? 'Reactive' : 'By button'"
+            />
+          </div>
+          <div v-if="!reactiveGenerate">
             <q-btn
-              class="q-px-none"
+              @click="urlToButtonUrl"
+              flat
+              color="primary"
+              label="Generate"
+            />
+          </div>
+          <div>
+            <q-btn
               :href="url"
               target="_blank"
               download
@@ -107,9 +137,16 @@ onMounted(() => {
       <div class="row justify-center q-pa-md">
         <div :style="barcodeWrapperStyle">
           <img
+            v-if="reactiveGenerate"
             alt="barcode from Aspose"
             class="bc-image"
             :src="url"
+          >
+          <img
+            v-if="!reactiveGenerate && buttonUrl.length"
+            alt="barcode from Aspose"
+            class="bc-image"
+            :src="buttonUrl"
           >
         </div>
       </div>

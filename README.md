@@ -8,6 +8,15 @@ Barcode generator
 
 One of the weaknesses is that the source code size is too large for one page, but with the development of the project, this will be a big plus.
 
+
+## Install the Global CLI
+```bash
+yarn global add @quasar/cli
+# or
+npm install -g @quasar/cli
+```
+
+
 ## Install the dependencies
 ```bash
 yarn
@@ -17,7 +26,13 @@ npm install
 
 ### Start the app in development mode (hot-code reloading, error reporting, etc.)
 ```bash
+# if you have the global CLI:
 quasar dev
+
+# otherwise:
+yarn quasar dev
+# or
+npx quasar dev
 ```
 
 
